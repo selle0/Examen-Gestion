@@ -21,7 +21,7 @@ jobs:
       run: composer validate --strict
 
     - name: Run unit and integration tests (Composer)
-      run: composer test
+      run: composer tests
 
     - name: Run linter
       run: composer lint    
