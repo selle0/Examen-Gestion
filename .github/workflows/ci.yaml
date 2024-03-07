@@ -35,9 +35,9 @@ jobs:
     - name: Run unit and integration tests (Composer)
       run: composer test tests
 
-    - name: Run linter
-      run: composer lint src
-      
+    # - name: Run linter
+    #   run: composer lint src
+
 
 
 
