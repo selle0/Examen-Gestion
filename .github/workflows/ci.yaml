@@ -20,12 +20,6 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
-    - name: Run unit and integration tests (Composer)
-      run: composer test tests
-
-    - name: Run linter
-      run: composer lint    
-
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -37,6 +31,14 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
+
+    - name: Run unit and integration tests (Composer)
+      run: composer test tests
+
+    - name: Run linter
+      run: composer lint src
+      
+
 
 
 
