@@ -2,23 +2,42 @@ name: EXAMEN CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ "main" ]
   pull_request:
-    branches: [main, develop]
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
-  testing:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
+    - uses: actions/checkout@v3
 
-      - name: Install Dependencies (Composer)
-        run: composer install
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
 
-      - name: Run unit and integration tests (Composer)
-        run: composer test
+    - name: Run unit and integration tests (Composer)
+      run: composer test
 
-      - name: Run linter
-        run: composer lint     
-        # cambios
+    - name: Run linter
+      run: composer lint    
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+
 
 
